@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import img1 from '../components/solo/1.jpeg'
 import img2 from '../components/solo/2.jpeg'
 import img3 from '../components/solo/3.jpeg'
 import img4 from '../components/solo/4.jpeg'
 import img5 from '../components/solo/5.jpeg'
+import upArrow from '../components/up-arrow.svg'
 
 function ReadManga() {
-
+    
     useEffect(() => {
         window.scrollTo({
             top: 0,
@@ -18,7 +19,7 @@ function ReadManga() {
     return (
         <div className='container-fluid d-flex flex-column justify-content-center align-items-center' style={{ minHeight: 'calc(100vh - 56px)', backgroundColor: '#000' }}>
             <div className='d-flex flex-row justify-content-between' style={{ marginTop: '10px', width: '100%' }}>
-                <div style={{ color: 'red'}}>
+                <div style={{ color: 'red' }}>
                     <Link style={{ color: '#fff' }} to='/'>Home</Link> / <Link style={{ color: '#fff' }} to='/manga'>{'Anime name'}</Link>
                 </div>
             </div>
@@ -37,6 +38,16 @@ function ReadManga() {
                 </div>
             </div>
 
+            <img 
+                src={upArrow}
+                alt="upArrow" 
+                style={{display: 'block', position: 'fixed', width: '40px', bottom: '10px', right: '10px'}} 
+                onClick={() => window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth',
+                })}
+            />
+            
         </div>
     )
 }
