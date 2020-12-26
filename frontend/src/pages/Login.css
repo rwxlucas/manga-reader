@@ -1,0 +1,20 @@
+.loginPage{
+    width: 100%;
+    height: calc(100vh - 56px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loginForm{
+    display: flex;
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.5);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.5);
+    box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.5);
+    height: 350px;
+    width: 300px;
+    border-radius: 5px;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
