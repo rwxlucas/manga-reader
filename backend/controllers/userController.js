@@ -44,14 +44,15 @@ const signIn = (req, res) => {
                         id: user._id
                     },
                     process.env.JWT_SECRET,
-                    { expiresIn: 86400 }
+                    // 86400
+                    { expiresIn: 10 }
                 )
 
                 return res.status(200).send({
                     accessToken: token,
                     username: user.username,
                     email: user.email,
-                    bookmarks: ['qyeota', 'otario']
+                    bookmarks: ['Naruto', 'Bleach', 'One Piece', 'After School']
                 }) 
             }
 

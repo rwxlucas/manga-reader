@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
+
+import { connect } from 'react-redux'
+import { logout } from '../redux/actions/userAction'
+
 import { Link } from 'react-router-dom'
 
+const Header = (props) => {
 
-
-const Header = () => {
-
-    const [isLogged, setIsLogged] = useState(true)
 
     const loginLink = () => {
         return (
@@ -14,7 +15,7 @@ const Header = () => {
                     <Link className='nav-link' to='/bookmark'>Bookmark</Link>
                 </li>
                 <li className='nav-item'>
-                    <Link className='nav-link' onClick={() => setIsLogged(false)} to="/">Log Out</Link>
+                    <a className='nav-link' onClick={props.logout} href="/">Log Out</a>
                 </li>
             </>
         )
@@ -32,6 +33,7 @@ const Header = () => {
             </>
         )
     }
+
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -42,7 +44,7 @@ const Header = () => {
                 <div className="collapse navbar-collapse" id="navbarNav">
                     <ul className="navbar-nav">
                         {
-                            isLogged ?
+                            localStorage.getItem('user') ?
                                 loginLink() : registerLink()
                         }
                     </ul>
@@ -52,4 +54,21 @@ const Header = () => {
     )
 }
 
-export default Header
+const mapStateToProps = state => {
+    return {
+        user: state.user
+    }
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        logout: () => {
+            dispatch(logout())
+        }
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Header)

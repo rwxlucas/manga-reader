@@ -1,5 +1,9 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+
+import { connect } from 'react-redux'
+import { login } from '../redux/actions/userAction'
+
 import './Login.css'
 
 const Login = (props) => {
@@ -24,17 +28,16 @@ const Login = (props) => {
                 password
             }
         ).then(res => {
-            if(res.data.accessToken){
-                localStorage.setItem('user', JSON.stringify(res.data))
+            if (res.data.accessToken) {
+                const { username, accessToken } = res.data
+                props.login(username, accessToken)
                 setUsername('')
                 setPassword('')
                 props.history.push('/')
             }
         })
             .catch(err => {
-                alert(err)
-                setUsername('')
-                setPassword('')
+                alert('Incorrect username or password')
             })
 
     }
@@ -59,4 +62,15 @@ const Login = (props) => {
     )
 }
 
-export default Login
+const mapDispatchToProps = dispatch => {
+    return {
+        login: (username, accessToken) => {
+            dispatch(login(username, accessToken))
+        }
+    }
+}
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(Login)

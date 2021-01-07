@@ -1,19 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import img1 from '../components/solo/1.jpeg'
-import img2 from '../components/solo/2.jpeg'
-import img3 from '../components/solo/3.jpeg'
-import img4 from '../components/solo/4.jpeg'
-import img5 from '../components/solo/5.jpeg'
-import upArrow from '../components/up-arrow.svg'
+import axios from 'axios'
 
-function ReadManga() {
+function ReadManga(props) {
     
+    const [images, setImages] = useState([])
+
     useEffect(() => {
         window.scrollTo({
             top: 0,
             behavior: 'smooth',
         })
+    }, [])
+
+    useEffect(() => {
+        // axios.get(`http://localhost:5000/api/manga/${props.mangaName}/${props.mangaChapter}`)
+        axios.get(`http://localhost:5000/api/manga/naruto/3`)
+            .then(res => {
+                const myImages = [...res.data]
+                setImages(myImages)
+            })
     }, [])
 
     return (
@@ -24,11 +30,9 @@ function ReadManga() {
                 </div>
             </div>
             <ul className='d-flex flex-column justify-content-center align-items-center' style={{ padding: '10px 0px' }}>
-                <li><img src={img1} className='img-fluid' alt="" /></li>
-                <li><img src={img2} className='img-fluid' alt="" /></li>
-                <li><img src={img3} className='img-fluid' alt="" /></li>
-                <li><img src={img4} className='img-fluid' alt="" /></li>
-                <li><img src={img5} className='img-fluid' alt="" /></li>
+                {
+                    images.map((item, key) => <li key={key}><img src={`data:image/jpeg; base64, ${item}`} className='img-fluid' alt="" /></li>)
+                }
             </ul>
 
             <div className='col-lg-12' style={{ margin: '10px' }}>
@@ -36,18 +40,7 @@ function ReadManga() {
                     <button className='btn btn-success' disabled style={{ marginRight: '5px' }}>Previous chapter</button>
                     <button className='btn btn-success' style={{ marginLeft: '5px' }}>Next chapter</button>
                 </div>
-            </div>
-
-            <img 
-                src={upArrow}
-                alt="upArrow" 
-                style={{display: 'block', position: 'fixed', width: '40px', bottom: '10px', right: '10px'}} 
-                onClick={() => window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth',
-                })}
-            />
-            
+            </div>            
         </div>
     )
 }

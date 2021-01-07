@@ -2,19 +2,23 @@ const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const app = express()
-const { userRoute, getMangasRoute } = require('./routes')
+const { userRoute, mangaRoute } = require('./routes')
 
 require('dotenv').config()
 
-// Permition to post/get JSON files
+// Permission to post/get JSON files
 app.use(express.json())
+app.use(express.urlencoded({extended: true}))
 // Enable cors
 app.use(cors())
 
 
 // API Routes 
+
+// User Route
 app.use('/api/user', userRoute)
-app.use('/api/books', getMangasRoute)
+// Manga route
+app.use('/api/manga', mangaRoute)
 
 mongoose.connect(
     `mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`,

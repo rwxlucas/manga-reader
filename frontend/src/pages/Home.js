@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import { Link } from 'react-router-dom'
 import MangaCard from '../components/MangaCard'
 
@@ -8,26 +9,21 @@ const Home = props => {
 
     const [searchInput, setSearchInput] = useState('')
     const [searchSent, setSearchSent] = useState(false)
+    const [mangaList, setMangaList] = useState([])
+
+    useEffect(() => {
+        axios.get('http://localhost:5000/api/manga')
+            .then(res => {
+                setMangaList([...res.data])
+            })
+    }, [])
 
     const onSearchInputChange = e => {
         setSearchInput(e.target.value)
-        if (e.target.value.length == 0) {
+        if (e.target.value.length === 0) {
             setSearchSent(false)
         }
     }
-
-    const renderList = () => {
-        const algo = []
-        for (let i = 0; i < 50; i++) {
-            algo.push(
-                <div style={{ width: '300px', height: '350px', backgroundColor: 'salmon', borderRadius: '5px', marginBottom: '15px' }}>
-                    {`teste${i}`}
-                </div>
-            )
-        }
-        return algo
-    }
-
     return (
         <div className='homePage container-fluid'>
 
@@ -52,23 +48,9 @@ const Home = props => {
                         <div className='row d-flex flex-row justify-content-between'>
                             <div className='col-lg-12 d-flex justify-content-center flex-wrap' style={{paddingTop: '20px' }}>
                                 {
-                                    searchSent ? 'result' : <>
-                                        <MangaCard />
-                                        <MangaCard />
-                                        <MangaCard />
-                                        <MangaCard />
-                                        <MangaCard />
-                                        <MangaCard />
-                                        <MangaCard />
-                                        <MangaCard />
-                                        <MangaCard />
-                                        <MangaCard />
-                                        <MangaCard />
-                                        <MangaCard />
-                                        <MangaCard />
-                                        <MangaCard />
-                                        <MangaCard />
-                                    </>
+                                    mangaList.map((item, index) => {
+                                        return <MangaCard key={index} manga={{name: item.name, id: item.id}} />
+                                    })
                                 }
                             </div>
                         </div>
@@ -77,12 +59,6 @@ const Home = props => {
                 <div className='col-lg-2 d-flex flex-column align-items-start' style={{ marginTop: '10px'}}>
                     <h4>Manga by genres:</h4>
                     <ul className='d-flex flex-column align-items-start' style={{listStyle: 'none' ,width: '100%'}}>
-                        <li><Link style={{color: '#000'}} to='/genres/algo'>Algo</Link></li>
-                        <li><Link style={{color: '#000'}} to='/genres/algo'>Algo</Link></li>
-                        <li><Link style={{color: '#000'}} to='/genres/algo'>Algo</Link></li>
-                        <li><Link style={{color: '#000'}} to='/genres/algo'>Algo</Link></li>
-                        <li><Link style={{color: '#000'}} to='/genres/algo'>Algo</Link></li>
-                        <li><Link style={{color: '#000'}} to='/genres/algo'>Algo</Link></li>
                         <li><Link style={{color: '#000'}} to='/genres/algo'>Algo</Link></li>
                     </ul>
                 </div>

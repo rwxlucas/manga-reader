@@ -1,8 +1,10 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
+
+import axios from 'axios'
 
 import './Register.css'
 
-const Register = () => {
+const Register = (props) => {
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -20,11 +22,28 @@ const Register = () => {
         setEmail(e.target.value)
     }
 
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        axios.post(
+            'http://localhost:5000/api/user/signup',
+            {
+                username,
+                password,
+                email
+            }
+        ).then(res => {
+            setUsername('')
+            setPassword('')
+            setEmail('')
+            props.history.push('/login')
+        }).catch(err => alert(err))
+    }
+
     return (
         <div className='registerPage'>
             <div className='registerForm'>
                 <h1>Register</h1>
-                <form onSubmit={() => alert(`idiota1: ${username} idiota2:${password} idiota3: ${email}`)}>
+                <form onSubmit={handleSubmit}>
                     <div className='form-group'>
                         <input required type="text" value={username} onChange={usernameChanged} className='form-control' placeholder='Username' />
                     </div>

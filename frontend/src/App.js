@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 
 import Header from './components/Header'
 
@@ -10,6 +10,9 @@ import ReadManga from './pages/ReadManga'
 import Bookmark from './pages/Bookmark'
 
 import { Route } from 'react-router-dom'
+
+import store from './redux/store'
+import { Provider } from 'react-redux'
 
 import './App.css'
 import 'jquery'
@@ -26,15 +29,17 @@ const App = props => {
     }, [])
 
     return (
-        <div className='appDiv'>
-            <Header />
-            <Route exact path={'/'} component={Home} />
-            <Route exact path={'/register'} component={Register} />
-            <Route exact path={'/login'} component={Login} />
-            <Route path={'/manga'} component={Manga} />
-            <Route path={'/readmanga'} component={ReadManga} />
-            <Route path={'/bookmark'} component={Bookmark} />
-        </div>
+        <Provider store={store}>
+            <div className='appDiv'>
+                <Header />
+                <Route exact path={'/'} component={Home} />
+                <Route exact path={'/register'} component={Register} />
+                <Route exact path={'/login'} component={Login} />
+                <Route path={'/manga'} component={Manga} />
+                <Route path={'/readmanga'} component={ReadManga} />
+                <Route path={'/bookmark'} component={Bookmark} />
+            </div>
+        </Provider>
     )
 }
 

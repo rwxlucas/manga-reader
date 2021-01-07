@@ -1,8 +1,9 @@
 import React, {useEffect} from 'react'
 import { Link } from 'react-router-dom'
-import horimiya from '../components/horimiya.jpeg'
 
-function MangaPage() {
+import { connect } from 'react-redux'
+
+function MangaPage(props) {
 
     useEffect(() => {
         window.scrollTo({
@@ -12,38 +13,49 @@ function MangaPage() {
     }, [])
 
     const renderMangaLists = () => {
-        const list = ['link1', 'link2','link2','link2','link2','link2','link2','link2','link2','link2','link2','link2','link2','link2','link2','link2','link2','link2','link2',]
-        return list.map(item => {
-            return <li> <Link style={{color: '#000'}} to={'/readmanga'}> Chapter 1: {item} </Link></li>
+        const list = ['link2','link2','link2','link2','link2','link2','link2','link2','link2',]
+        return list.map((item, key) => {
+            return <li key={key}> <Link style={{color: '#000'}} to={'/readmanga'}> Chapter 1: {item} </Link></li>
         })
+    }
+
+    const mangaName = (name) => {
+        const newName = []
+        name.split(' ').forEach(item => {
+            newName.push(item.charAt(0).toUpperCase() + item.slice(1))
+        })
+        return(newName.join(' '))
     }
 
     return (
         <div className='container'>
             <div className="row" style={{marginTop: '30px', padding: '20px', backgroundColor: '#fff',borderRadius: '5px'}}>
                 <div className='col-lg-3 d-flex flex-column align-items-center'>
-                    <img src={horimiya} className='img-fluid' style={{width: '300px', height: '375px'}} />
-                    <button className='btn btn-block btn-primary' style={{marginTop: '5px', maxWidth: '300px'}}>Add to bookmark</button>
+                    <img src={'https://avt.mkklcdnv6.com/30/a/17-1583496340.jpg'} alt='algo' className='img-fluid' style={{width: '300px', height: '375px'}} />
+                    <button className='btn btn-block btn-primary' style={{marginTop: '5px', maxWidth: '300px'}}>Add Favorite</button>
                 </div>
 
                 <div className='col-lg-8 d-flex flex-column align-items-start justify-content-start' style={{marginTop: '10px' ,wordWrap: 'break-word', textAlign: 'start', wordBreak: 'break-all'}}>
                     <p>
-                        Name: {'name'}
+                        Name: {mangaName(props.manga.name)}
                     </p>
                     <p>
-                        Alternative: {'Alternative'}
+                        Alternative: {props.manga.alternative}
                     </p>
                     <p>
-                        Autor: {'Author name'}
+                        Author: {mangaName(props.manga.author)}
                     </p>
                     <p>
-                        Genres: {'genres'}
+                        Genres: {props.manga.genres.map(item => <span>{item}</span>)}
                     </p>
                     <p>
-                        Rating: {'Rating'}
+                        Rating: {props.manga.rating}
                     </p>
                     <p>
-                        Description: {'Description'}
+                        Description: {props.manga.description}
+                    </p>
+                    <p>
+                        Views: {props.manga.views}
                     </p>
                 </div>
             </div>
@@ -60,4 +72,13 @@ function MangaPage() {
     )
 }
 
-export default MangaPage
+const mapStateToProps = state => {
+    return {
+        manga: state.mangaInfo
+    }
+}
+
+export default connect(
+    mapStateToProps,
+    null
+)(MangaPage)

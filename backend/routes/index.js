@@ -1,7 +1,7 @@
 const userRoute = require('./userRoute')
-const getMangasRoute = require('./getMangasRoute')
+const mangaRoute = require('./mangaRoute')
 
 module.exports = {
     userRoute,
-    getMangasRoute
+    mangaRoute
 }

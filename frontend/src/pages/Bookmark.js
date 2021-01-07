@@ -1,10 +1,8 @@
-import React, {useState} from 'react'
+import React from 'react'
 
 import MangaCard from '../components/MangaCard'
 
 function Bookmark() {
-
-    const [bookmarkList, setBookmarkList] = useState([])
 
     return (
         <div className='container-fluid'>
@@ -15,24 +13,6 @@ function Bookmark() {
             </div>
             <div className="d-flex justify-content-center">
                 <div className="col-lg-10 d-flex flex-wrap justify-content-center">
-                    <MangaCard />
-                    <MangaCard />
-                    <MangaCard />
-                    <MangaCard />
-                    <MangaCard />
-                    <MangaCard />
-                    <MangaCard />
-                    <MangaCard />
-                    <MangaCard />
-                    <MangaCard />
-                    <MangaCard />
-                    <MangaCard />
-                    <MangaCard />
-                    <MangaCard />
-                    <MangaCard />
-                    <MangaCard />
-                    <MangaCard />
-                    <MangaCard />
                     <MangaCard />
                 </div>
             </div>
