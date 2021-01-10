@@ -10,7 +10,10 @@ require('dotenv').config()
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 // Enable cors
-app.use(cors())
+const corsOptions = {
+    origin: process.env.FRONT_URL
+}
+app.use(cors(corsOptions))
 
 // API Routes
 // User Route
