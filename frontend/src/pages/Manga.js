@@ -75,7 +75,7 @@ function MangaPage(props) {
                         Author: {mangaName(props.manga.author)}
                     </p>
                     <p>
-                        Genres: {props.manga.genres.map(item => <span>{item}</span>)}
+                        Genres: {props.manga.genres.map(item => <span>{item} | </span>)}
                     </p>
                     <p>
                         Rating: {props.manga.rating}
