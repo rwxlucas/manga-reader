@@ -1,7 +1,7 @@
 const User = require('../models/userModel')
+const Manga = require('../models/mangaModel')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
-
 
 const signUp = async (req, res) => {
 
@@ -36,32 +36,70 @@ const signIn = (req, res) => {
                 })
             }
 
-            const verifyPassword = await bcrypt.compare(req.body.password,user.password)
-            
-            if(verifyPassword){
+            const verifyPassword = await bcrypt.compare(req.body.password, user.password)
+
+            if (verifyPassword) {
                 const token = jwt.sign(
                     {
                         id: user._id
                     },
                     process.env.JWT_SECRET,
-                    // 86400
-                    { expiresIn: 10 }
+                    { expiresIn: 86400 }
                 )
 
                 return res.status(200).send({
                     accessToken: token,
                     username: user.username,
                     email: user.email,
-                    bookmarks: ['Naruto', 'Bleach', 'One Piece', 'After School']
-                }) 
+                    bookmarks: [...user.bookmarks]
+                })
             }
 
-            return res.status(400).send({message: 'Incorrect credentials.'})
+            return res.status(400).send({ message: 'Incorrect credentials.' })
         }
     )
 }
 
+const uploadBookmarks = async (req, res) => {
+    try {
+        const user = await User.findOne({ username: req.body.username })
+        if(user.bookmarks.indexOf(req.body.mangaId) === -1){
+            user.bookmarks.push(req.body.mangaId)
+            user.save()
+            return res.send('Favorite added!')
+        }else{
+            const mangaBooks = user.bookmarks
+            mangaBooks.splice(mangaBooks.indexOf(req.body.mangaId), 1)
+            user.bookmarks = mangaBooks
+            user.save()
+            return res.send('Favorite removed!')
+        }
+    } catch (error) {
+        return res.send(error)
+    }
+}
+
+const getBookmarks = async (req, res) => {
+    try {
+        const user = await User.findOne({username: req.params.username})
+        const mangas = []
+        for(const manga of user.bookmarks){
+            const mangaItem = await Manga.findOne({_id: manga})
+            mangas.push({
+                name: mangaItem.name,
+                id: mangaItem.id,
+                image: mangaItem.thumbnail
+            })
+        }
+        res.send(mangas)
+    } catch (error) {
+        res.send(error)
+    }
+}
+
 module.exports = {
     signUp,
-    signIn
+    signIn,
+    uploadBookmarks,
+    getBookmarks
 }

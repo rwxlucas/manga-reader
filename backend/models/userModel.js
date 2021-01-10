@@ -18,6 +18,9 @@ const User = mongoose.model(
         email: {
             type: String,
             required: true
+        },
+        bookmarks: {
+            type: Array
         }
     })
 )

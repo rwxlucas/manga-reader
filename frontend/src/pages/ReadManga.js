@@ -14,7 +14,6 @@ function ReadManga(props) {
     }, [])
 
     useEffect(() => {
-        // axios.get(`http://localhost:5000/api/manga/${props.mangaName}/${props.mangaChapter}`)
         axios.get(`http://localhost:5000/api/manga/naruto/3`)
             .then(res => {
                 const myImages = [...res.data]

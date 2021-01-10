@@ -14,6 +14,10 @@ const Manga = mongoose.model(
             type: String,
             required: true
         },
+        thumbnail: {
+            type: String,
+            required: true,
+        },
         genres: {
             type: Array,
             required: true

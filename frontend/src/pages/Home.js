@@ -39,27 +39,28 @@ const Home = props => {
             </div>
 
             <div className='row d-flex flex-row justify-content-between'>
-                <div className='col-lg-9 container-fluid' >
+                <div className="col-lg-2"></div>
+                <div className='col-lg-8 container-fluid' >
                     <div className='row'>
                         <div style={{ padding: '10px' }} className='col-lg-12 text-center'>
                             <h2>Read Manga Online</h2>
                         </div>
 
                         <div className='row d-flex flex-row justify-content-between'>
-                            <div className='col-lg-12 d-flex justify-content-center flex-wrap' style={{paddingTop: '20px' }}>
+                            <div className='col-lg-12 d-flex justify-content-center flex-wrap' style={{ paddingTop: '20px' }}>
                                 {
                                     mangaList.map((item, index) => {
-                                        return <MangaCard key={index} manga={{name: item.name, id: item.id}} />
+                                        return <MangaCard key={index} manga={{ name: item.name, id: item.id, image: item.image }} />
                                     })
                                 }
                             </div>
                         </div>
                     </div>
                 </div>
-                <div className='col-lg-2 d-flex flex-column align-items-start' style={{ marginTop: '10px'}}>
+                <div className='col-lg-2 d-flex flex-column align-items-start' style={{ marginTop: '10px' }}>
                     <h4>Manga by genres:</h4>
-                    <ul className='d-flex flex-column align-items-start' style={{listStyle: 'none' ,width: '100%'}}>
-                        <li><Link style={{color: '#000'}} to='/genres/algo'>Algo</Link></li>
+                    <ul className='d-flex flex-column align-items-start' style={{ listStyle: 'none', width: '100%' }}>
+                        <li><Link style={{ color: '#000' }} to='/genres/algo'>Algo</Link></li>
                     </ul>
                 </div>
             </div>

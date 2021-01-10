@@ -16,9 +16,8 @@ const MangaCard = (props) => {
         axios.get(`http://localhost:5000/api/manga/${props.manga.id}`)
             .then(res => {
                 props.mangaInfo(res.data)
+                history.push(`/manga`)
             })
-
-        history.push(`/manga`)
     }
 
     const mangaName = (name) => {
@@ -31,7 +30,7 @@ const MangaCard = (props) => {
 
     return (
         <div className='mangaCard' onClick={redirectToManga}>
-            <img src={'https://avt.mkklcdnv6.com/30/a/17-1583496340.jpg'} alt={props.manga.name} />
+            <img src={`data:image/jpeg; base64, ${props.manga.image}`} alt={props.manga.name} />
             <div>{mangaName(props.manga.name)}</div>
         </div>
     )

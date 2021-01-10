@@ -12,9 +12,7 @@ app.use(express.urlencoded({extended: true}))
 // Enable cors
 app.use(cors())
 
-
-// API Routes 
-
+// API Routes
 // User Route
 app.use('/api/user', userRoute)
 // Manga route

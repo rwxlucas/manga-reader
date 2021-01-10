@@ -1,9 +1,10 @@
-const login = (username, accessToken) => {
+const login = (username, accessToken, bookmarks) => {
     return {
         type: 'LOGIN',
         payload: {
             username,
-            accessToken
+            accessToken,
+            bookmarks
         }
     }
 }
@@ -14,9 +15,25 @@ const logout = () => {
     }
 }
 
+const addBookmark = (manga) => {
+    return {
+        type: 'ADD_BOOKMARK',
+        payload: manga
+    }
+}
+
+const removeBookmark = (manga) => {
+    return {
+        type: 'REMOVE_BOOKMARK',
+        payload: manga
+    }
+}
+
 const userAction = {
     login,
-    logout
+    logout,
+    addBookmark,
+    removeBookmark
 }
 
 module.exports = userAction

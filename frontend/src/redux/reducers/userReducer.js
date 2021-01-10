@@ -1,6 +1,9 @@
+import { addBookmark } from "../actions/userAction"
+
 const initialState = {
     isLogged: false,
-    username: ''
+    username: '',
+    bookmarks: []
 }
 
 const userReducer = (state = initialState, action) => {
@@ -11,13 +14,28 @@ const userReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isLogged: true,
-                username: payload.username
+                username: payload.username,
+                bookmarks: payload.bookmarks
             }
         case 'LOGOUT':
             localStorage.removeItem('user')
             return {
                 isLogged: false,
                 username: ''
+            }
+        case 'ADD_BOOKMARK':
+            let add = state.bookmarks
+            add.push(payload)
+            return {
+                ...state,
+                bookmarks: add
+            }
+        case 'REMOVE_BOOKMARK':
+            let remove = state.bookmarks
+            remove.splice(remove.indexOf(payload), 1)
+            return {
+                ...state,
+                bookmarks: remove
             }
         default:
             return state

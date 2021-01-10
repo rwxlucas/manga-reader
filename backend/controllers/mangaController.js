@@ -2,21 +2,26 @@ const fs = require('fs')
 const path = require('path')
 const Manga = require('../models/mangaModel')
 
-const getMangaNames = (req, res) => {
-    Manga.find((err, docs) => {
-        if (err){
-            return res.json({message: err})
-        }
+const getMangaNames = async (req, res) => {
 
-        const mangas = []
-        docs.forEach(item => {
-            mangas.push({
-                id: item._id,
-                name: item.name
-            })
-        })
-        return res.json([...mangas])
-    })
+    let returnItems = []
+    const MANGA_FOLDER = process.env.MANGA_FOLDER
+    const mangaNames = fs.readdirSync(MANGA_FOLDER)
+    for (const mangas of mangaNames) {
+        const mangaFolderUrl = `${MANGA_FOLDER}/${mangas}`
+        const mangaFolder = fs.readdirSync(mangaFolderUrl)
+        for (const items of mangaFolder) {
+            if (mangas === path.basename(items, '.jpeg')) {
+                const dbManga = await Manga.findOne({ name: mangas.replace('-', ' ') }).exec()
+                returnItems.push({
+                    name: dbManga.name,
+                    id: dbManga._id,
+                    image: fs.readFileSync(`${mangaFolderUrl}/${items}`, 'base64')
+                })
+            }
+        }
+    }
+    res.send(returnItems)
 }
 
 
@@ -56,21 +61,19 @@ const getMangaPages = (req, res) => {
 }
 
 const getMangaInfo = (req, res) => {
-    const {id} = req.params
-    console.log(id)
+    const { id } = req.params
     Manga.findOne(
-        {_id: id},
+        { _id: id },
         (err, doc) => {
-            if(err){
-                return res.json({message: err})
+            if (err) {
+                return res.json({ message: err })
             }
-            console.log(doc)
             return res.json(doc)
         }
     )
 }
 
-const uploadData = (req, res) => {
+const uploadData = ((req, res) => {
     if (!req.body.name || !req.body.author || !req.body.genres || !req.body.description) {
         return res.json({ message: 'Incomplete request!' })
     }
@@ -91,7 +94,8 @@ const uploadData = (req, res) => {
                 author: req.body.author,
                 alternative: req.body.alternative ? req.body.alternative : '',
                 genres: [...req.body.genres],
-                description: req.body.description
+                description: req.body.description,
+                thumbnail: req.body.thumbnail
             })
 
             newManga.save()
@@ -101,12 +105,11 @@ const uploadData = (req, res) => {
                 .catch(err => res.json({ message: err }))
         }
     )
-
-}
+})
 
 module.exports = {
     getMangaPages,
     getMangaInfo,
     getMangaNames,
-    uploadData,
+    uploadData
 }

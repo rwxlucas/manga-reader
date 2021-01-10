@@ -5,6 +5,7 @@ const initialState = {
     genres: [],
     rating: 0,
     description: '',
+    thumbnail: '',
     views: 0
 }
 

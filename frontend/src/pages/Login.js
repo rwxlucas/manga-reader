@@ -29,8 +29,8 @@ const Login = (props) => {
             }
         ).then(res => {
             if (res.data.accessToken) {
-                const { username, accessToken } = res.data
-                props.login(username, accessToken)
+                const { username, accessToken, bookmarks } = res.data
+                props.login(username, accessToken, bookmarks)
                 setUsername('')
                 setPassword('')
                 props.history.push('/')
@@ -64,8 +64,8 @@ const Login = (props) => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        login: (username, accessToken) => {
-            dispatch(login(username, accessToken))
+        login: (username, accessToken, bookmarks) => {
+            dispatch(login(username, accessToken, bookmarks))
         }
     }
 }
